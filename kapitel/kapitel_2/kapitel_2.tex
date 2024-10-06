@@ -1,2 +1,104 @@
 \newpage
-\section{Requirement Engineering} \label{requirementengineering}
+
+\section{Methodology}\label{sec:methodology}
+
+\subsection{Prototyping}\label{subsec:prototyping}
+
+\subsubsection{Introduction to the Prototyping Methodology According to Floyd}\label{subsubsec:ptintro}
+
+The prototyping approach developed by Christiane Floyd represents a structured methodology used primarily in software
+development to improve communication between developers and users, reduce misunderstandings, and ultimately enhance the
+quality of the final product.\autocite[cf.][p.2-3]{floydSystematicLookPrototyping1984} This methodology provides an
+alternative to the traditional linear, phase-oriented development process by introducing a dynamic element of iteration
+and feedback.\autocite[cf.][p.3]{floydSystematicLookPrototyping1984} As a result, it facilitates a more
+interactive and user-centered development process.\autocite[cf.][p.3-4]{floydSystematicLookPrototyping1984}
+
+Floyd’s prototyping process is structured as a cyclical sequence of four distinct steps: functional selection,
+construction, evaluation, and further use.\\ The first step, Functional Selection, involves identifying the specific
+functions that the prototype should demonstrate. The selected functionalities are derived from the relevant work tasks
+to ensure meaningful demonstrations, while acknowledging that the prototype does not need to represent the final product
+comprehensively. This allows for a degree of flexibility in the selection and prioritization of features to be included
+in the prototype.\autocite[cf.][p.4]{floydSystematicLookPrototyping1984}
+
+The second step, Construction, entails building the prototype using techniques and tools that enable rapid development
+and easy adjustments. At this stage, the focus is not on developing a fully functional system, but rather on
+demonstrating and assessing specific aspects of the final product. This approach enables the prototype to act as a tool
+for exploring different solutions and gathering feedback.\autocite[cf.][p.4]{floydSystematicLookPrototyping1984}
+
+Evaluation, the third step in the process, serves as the cornerstone of the prototyping methodology. In this step,
+feedback from all relevant stakeholders—including potential users—is collected and analyzed to refine and guide
+subsequent development stages. This iterative process ensures that the prototype evolves in alignment with user
+expectations and needs.\autocite[cf.][p.4-5]{floydSystematicLookPrototyping1984}
+
+The final step, Further Use, determines the prototype's role after the evaluation phase. Depending on its effectiveness
+and the degree to which it meets requirements, the prototype can be discarded, modified for continued use, or serve as a
+foundation for the final product. This flexibility is critical in accommodating evolving requirements and objectives,
+making the prototyping approach particularly valuable in contexts where specifications are expected to change
+frequently.\autocite[cf.][p.5]{floydSystematicLookPrototyping1984}
+
+Floyd’s methodology also categorizes prototyping into three primary approaches, each based on the goals and context of
+development: exploratory prototyping, experimental prototyping, and evolutionary prototyping.
+\autocite[cf.][p.6]{floydSystematicLookPrototyping1984}\\ Exploratory Prototyping is
+primarily used to clarify requirements and foster creative cooperation between developers and users during the early
+stages of development. It is particularly useful when there is a lack of clarity on the system’s final objectives, as it
+allows for broad experimentation and refinement of ideas before committing to a specific solution.
+\autocite[cf.][p.6-7]{floydSystematicLookPrototyping1984}
+
+In contrast, Experimental Prototyping focuses on testing proposed solutions to validate specific hypotheses, such as
+user interface design, system performance, or algorithm feasibility. This approach might involve techniques such as full
+functional simulation or human interface simulation to verify that the proposed design meets the intended objectives.
+\autocite[cf.][p.8-10]{floydSystematicLookPrototyping1984}
+
+Finally, Evolutionary Prototyping treats the prototype as a system that continuously evolves to adapt to changing
+requirements over time. Each version of the prototype serves as a basis for the next iteration, incorporating new
+insights and user feedback. This approach is especially beneficial in scenarios where requirements are expected to
+change frequently, rendering a static set of requirements impractical.
+\autocite[cf.][p.10-12]{floydSystematicLookPrototyping1984}
+
+To support these prototyping processes, various techniques and tools can be utilized.
+\autocite[cf.][p.12]{floydSystematicLookPrototyping1984} \\Modular Design, for instance, encourages the use of small,
+independent modules that can be replaced or refined as needed, thereby facilitating iterative development and easing
+integration into the final product.\autocite[cf.][p.12]{floydSystematicLookPrototyping1984} \\Additionally, Dialogue
+Design plays a crucial role in ensuring that the user interface is adaptable and transparent, which enables effective
+evaluation and modification of the user experience.\autocite[cf.][p.12]{floydSystematicLookPrototyping1984}
+\\Furthermore, Simulation techniques allow for simulating aspects of the final system that are not yet fully
+implemented, enabling the assessment of system performance and user interaction without the need for a complete
+implementation.\autocite[cf.][p.13]{floydSystematicLookPrototyping1984}
+
+\subsubsection{Selection of Prototyping Approach}\label{subsubsec:ptselection}
+
+Given the context and objectives of this project, the decision was made to adopt the experimental prototyping approach.
+This choice is rooted in the fact that the project requirements have already been well-defined through a comprehensive
+requirements engineering process, thus eliminating the need for exploratory prototyping. The clear specification of
+functionalities and user expectations ensures that the focus can shift from understanding requirements to validating and
+testing specific design choices.
+
+Furthermore, the experimental approach is particularly well-suited for scenarios where a prototype is intended to serve
+as a preliminary proof of concept rather than a foundation for incremental development. This aligns perfectly with the
+anticipated lifecycle of the prototype in this project, which is expected to be discarded once the MVP phase begins. As
+the project moves towards the MVP stage, a fresh start will be made, incorporating only validated concepts and findings
+from the experimental prototype. Therefore, evolutionary prototyping is not applicable, as it is primarily designed for
+projects that involve iterative refinement and continuous evolution of the same prototype.
+
+The experimental prototyping approach allows for focused experimentation with various design elements, interface
+interactions, and technical implementations, all within a controlled environment that does not necessitate long-term
+integration into the final product.
+
+\subsubsection{Application of Experimental Prototyping in the Project}\label{subsubsec:ptapplication}
+
+The experimental prototyping approach will be implemented in this project with a focus on validating user interface
+designs, interactions, and core functionalities against predefined requirements. The development of the prototype will
+leverage a set of carefully selected techniques that facilitate rapid iteration and feedback.
+
+A key technique employed is simulation, which is used to mimic certain system behaviors without integrating the
+prototype into live production environments. This decision is motivated by the limited scope of the prototype and the
+intention to avoid disruptions to existing systems. By relying on test data instead of actual production data, the
+prototype can simulate real-world scenarios and provide valuable insights into its performance and user experience.
+% todo Hinzufügen von Modular Design weil Floyd sagt "Used as a technique, simulation is clearly dependet on modular design, which permits simulation to be made locally without affecting the system structure as a whole.
+Moreover, the prototype will not attempt to implement every function in its final depth and breadth. Instead, certain
+features will be simulated to convey the look and feel of the system, providing a realistic representation of how the
+final product would function. This approach enables the development team to receive early feedback on key aspects of the
+design and functionality without committing extensive resources to full-scale implementation.
+
+By focusing on these aspects, the prototype will serve as a learning tool, guiding the refinement of requirements and
+design choices before moving into the more resource-intensive MVP phase.
