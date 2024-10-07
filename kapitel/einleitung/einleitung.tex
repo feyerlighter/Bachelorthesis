@@ -21,11 +21,10 @@ Abbildung.
 
 The selection of a robust and integrated technical stack is pivotal for the successful implementation of sophisticated
 software solutions, particularly when developing a chatbot designed to understand and fulfill complex customer needs.
-The project presented in this bachelor’s thesis involves the creation of a chatbot that leverages Natural Language
-Processing (\ac{NLP}) to interpret customer inquiries and match them with relevant items from a supplier catalog.
-To achieve
-this, the backend relies on Python and Haystack, while the frontend utilizes Vue, and the deployment is
-managed through containerization and orchestration technologies like Docker and Kubernetes.
+The project presented in this bachelor’s thesis involves the creation of a chatbot that leverages \ac{NLP} to interpret
+customer inquiries and match them with relevant items from a supplier catalog. To achieve this, the backend relies on
+Python and Haystack, while the frontend utilizes Vue, and the deployment is managed through containerization and
+orchestration technologies like Docker and Kubernetes.
 
 \subsubsection{Backend Technologies}
 
@@ -34,12 +33,13 @@ managed through containerization and orchestration technologies like Docker and 
 Python serves as the backbone of the application due to its extensive ecosystem and its ability to seamlessly integrate
 various libraries and frameworks that facilitate rapid prototyping and the development of complex data-driven
 functionalities.\autocite[cf.][p. 12]{shrivastavaDesignImplementationChatbot}
-\autocite[cf.][pp. 240-241]{christensenPythonPipelineRapid2022} Its prominence in the fields of machine
-learning and data science makes it an ideal choice for implementing a chatbot that requires advanced Natural Language
-Understanding (\ac{NLU}) capabilities.\autocite[cf.][p. 1]{lortiePythonModernData2022}\autocite[cf.][p. 85]{joshiOverviewPythonLibraries}
+\autocite[cf.][pp. 240--241]{christensenPythonPipelineRapid2022} Its prominence in the fields of machine
+learning and data science makes it an ideal choice for implementing a chatbot that requires advanced \ac{NLU}
+capabilities.\autocite[cf.][p. 1]{lortiePythonModernData2022}\autocite[cf.][p. 85]{joshiOverviewPythonLibraries}
 Specifically, Python's compatibility with NLP frameworks like Haystack and many libraries ensures that
-the chatbot can parse user inputs and perform context-aware semantic searches.\autocite[cf.][p. 21]{fareezPOPULARPYTHONLIBRARIES2020}
-This capability is crucial for accurately interpreting customer needs and mapping them to appropriate products or services in the supplier catalog.
+the chatbot can parse user inputs and perform context-aware semantic searches.
+\autocite[cf.][p. 21]{fareezPOPULARPYTHONLIBRARIES2020} This capability is crucial for accurately interpreting customer
+needs and mapping them to appropriate products or services in the supplier catalog.
 
 The integration of Haystack within this project serves as a cornerstone for the development of an intelligent,
 search-driven chatbot, which is designed to address the intricate nature of customer inquiries. Haystack, a robust
@@ -53,20 +53,19 @@ Haystack framework. This allows the system to engage in nuanced contextual inter
 improving the precision of semantic searches. The choice of GPT-4 is particularly advantageous in question-answering
 scenarios, as it allows the chatbot to comprehend the subtleties of customer queries and generate responses that are not
 only contextually relevant but also demonstrate a high degree of language understanding
-\autocite[cf.][pp. 943-944]{syedQuestionAnsweringChatbot2021}.
+\autocite[cf.][pp. 943--944]{syedQuestionAnsweringChatbot2021}.
 
-Moreover, Haystack’s modular architecture and extensible Application Programming Interfaces (\ac{API}s) offer a high
-degree of flexibility, facilitating seamless integration within the chatbot’s overall architecture. This ensures that
-the processes of searching and retrieving supplier catalog data are executed with optimal accuracy and efficiency.
-Consequently, Haystack’s inclusion in the technical stack is not merely contributory to the current system’s
-capabilities but also establishes a solid foundation for prospective advancements and refinements in the chatbot’s
-functional repertoire.
+Moreover, Haystack’s modular architecture and extensible \acp{API} offer a high degree of flexibility, facilitating
+seamless integration within the chatbot’s overall architecture. This ensures that the processes of searching and
+retrieving supplier catalog data are executed with optimal accuracy and efficiency. Consequently, Haystack’s inclusion
+in the technical stack is not merely contributory to the current system’s capabilities but also establishes a solid
+foundation for prospective advancements and refinements in the chatbot’s functional repertoire.
 
 \subsubsubsection{PostgreSQL}
 
 The backend system also incorporates PostgreSQL as its database solution. PostgreSQL’s support for complex queries and
 its capability to handle structured data are essential for managing and accessing the supplier information and product
-details stored within the system.\autocite[cf.][pp. 23-24]{abbasiAdaptiveScalableDatabase2024}
+details stored within the system.\autocite[cf.][pp. 23--24]{abbasiAdaptiveScalableDatabase2024}
 The integration of PostgreSQL ensures that the chatbot can quickly and efficiently
 retrieve the necessary data, thereby reducing latency and enhancing the overall user experience.
 
@@ -96,7 +95,7 @@ compatibility and consistency between various package versions.
 On the frontend, Vue.js and Vuetify are utilized to create an intuitive and responsive user interface.
 The decision to use Vue.js stems from its reactive nature and modular architecture, which align with the need for a
 maintainable and easily extensible codebase.\autocite[cf.][p. 268]{kaluzaComparisonFrontendFrameworks2018}
-\autocite[cf.][pp. 1-2]{liResearchSinglePage2021} It is effective for developing a chatbot interface that needs to present
+\autocite[cf.][pp. 1--2]{liResearchSinglePage2021} It is effective for developing a chatbot interface that needs to present
 complex data in an accessible manner, while also allowing for dynamic updates based on user interactions.
 \autocite[cf.][p. 493]{mokogintaDevelopingModernJavaScript2024}
 
@@ -107,9 +106,9 @@ Docker’s role in containerizing the application ensures that the entire softwa
 consistently across various environments.\autocite[cf.][p. 191]{openjaStudyingPracticesDeploying2022} This is essential
 for a project like this, where different iterations of the prototype may need to be tested in different setups.
 Kubernetes, in turn, provides the orchestration needed to manage these containers, allowing for automated scaling and
-high availability.\autocite[cf.][pp. 2,7-8]{carrionKubernetesSchedulingTaxonomy2022} The use of Terraform as an
-infrastructure-as-code (\ac{IaC}) tool ensures that cloud resources can be provisioned and managed efficiently, providing a
-stable and reproducible deployment environment.\autocite[cf.][p. 24]{n.EvaluatingDevopsTools2023}
+high availability.\autocite[cf.][pp. 2,7-8]{carrionKubernetesSchedulingTaxonomy2022} The use of Terraform as an \ac{IaC}
+tool ensures that cloud resources can be provisioned and managed efficiently, providing a stable and reproducible
+deployment environment.\autocite[cf.][p. 24]{n.EvaluatingDevopsTools2023}
 
 \vspace{1cm}
 
