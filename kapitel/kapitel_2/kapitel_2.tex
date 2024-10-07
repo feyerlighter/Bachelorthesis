@@ -1,5 +1,6 @@
 \newpage
 
+
 \section{Methodology}\label{sec:methodology}
 
 \subsection{Prototyping}\label{subsec:prototyping}
@@ -94,10 +95,15 @@ A key technique employed is simulation, which is used to mimic certain system be
 prototype into live production environments. This decision is motivated by the limited scope of the prototype and the
 intention to avoid disruptions to existing systems. By relying on test data instead of actual production data, the
 prototype can simulate real-world scenarios and provide valuable insights into its performance and user experience.
-% todo Hinzufügen von Modular Design weil Floyd sagt "Used as a technique, simulation is clearly dependet on modular design, which permits simulation to be made locally without affecting the system structure as a whole.
+
 Moreover, the prototype will not attempt to implement every function in its final depth and breadth. Instead, certain
 features will be simulated to convey the look and feel of the system, providing a realistic representation of how the
-final product would function. This approach enables the development team to receive early feedback on key aspects of the
+final product would function. This is where Modular Design plays a crucial role. By leveraging modular design principles
+, the prototype can separate the user interface from the underlying logic and backend functionalities. This allows
+specific modules to be developed exclusively for the UI, simulating the presence of certain features without the need
+for fully developed backend logic. For instance, UI elements such as buttons, forms, and interactive components can be
+displayed and interacted with as if they were functional, even though the backend processing is either simulated or
+entirely absent. This approach enables the developer to receive early feedback on key aspects of the
 design and functionality without committing extensive resources to full-scale implementation.
 
 By focusing on these aspects, the prototype will serve as a learning tool, guiding the refinement of requirements and
