@@ -1,15 +1,12 @@
-\section{Einleitung}
-Dies soll eine \LaTeX{}
--Vorlage für den persönlichen Gebrauch werden.
-Sie hat weder einen Anspruch auf Richtigkeit, noch auf Vollständigkeit.
-Die Quellen liegen auf Github zur allgemeinen Verwendung.
-Verbesserungen sind jederzeit willkommen.
+\section{Relevance}\label{sec:Relevance}
+Dies soll eine \LaTeX{}-Vorlage für den persönlichen Gebrauch werden. Sie hat weder einen Anspruch auf Richtigkeit, noch
+auf Vollständigkeit. Die Quellen liegen auf Github zur allgemeinen Verwendung. Verbesserungen sind jederzeit willkommen.
 
-\subsection{Objective}
+\subsection{Objective}\label{subsec:objective}
 Kleiner Reminder für mich in Bezug auf die Dinge, die wir bei der Thesis beachten sollten und \LaTeX{}
 -Vorlage für die Thesis.
 
-\subsection{Structure of the Paper}
+\subsection{Structure of the Paper}\label{subsec:structure-of-the-paper}
 Kapitel~\ref{fundamentals}
 enthält die Inhalte des Thesis-Days und alles, was zum inhaltlichen erstellen der Thesis relevant sein könnte.
 In
@@ -17,7 +14,7 @@ Kapitel~\ref{sec:methodology}~\nameref{sec:methodology} findet ihr wichtige Anme
 , wobei die wirklich wichtigen Dinge im Quelltext dieses Dokumentes stehen (siehe auch die Verzeichnisstruktur in
 Abbildung.
 
-\subsection{Technical Stack Relevance}
+\subsection{Technical Stack Relevance}\label{subsec:technical-stack-relevance}
 
 The selection of a robust and integrated technical stack is pivotal for the successful implementation of sophisticated
 software solutions, particularly when developing a chatbot designed to understand and fulfill complex customer needs.
@@ -28,7 +25,7 @@ orchestration technologies like Docker and Kubernetes.
 
 \subsubsection{Backend Technologies}
 
-\subsubsubsection{Python and Haystack}
+\paragraph{Python and Haystack}
 
 Python serves as the backbone of the application due to its extensive ecosystem and its ability to seamlessly integrate
 various libraries and frameworks that facilitate rapid prototyping and the development of complex data-driven
@@ -36,17 +33,17 @@ functionalities.\autocite[cf.][p. 12]{shrivastavaDesignImplementationChatbot}
 \autocite[cf.][pp. 240--241]{christensenPythonPipelineRapid2022} Its prominence in the fields of machine
 learning and data science makes it an ideal choice for implementing a chatbot that requires advanced \ac{NLU}
 capabilities.\autocite[cf.][p. 1]{lortiePythonModernData2022}\autocite[cf.][p. 85]{joshiOverviewPythonLibraries}
-Specifically, Python's compatibility with NLP frameworks like Haystack and many libraries ensures that
+Specifically, Python's compatibility with \acs{NLP} frameworks like Haystack and many libraries ensures that
 the chatbot can parse user inputs and perform context-aware semantic searches.
 \autocite[cf.][p. 21]{fareezPOPULARPYTHONLIBRARIES2020} This capability is crucial for accurately interpreting customer
 needs and mapping them to appropriate products or services in the supplier catalog.
 
 The integration of Haystack within this project serves as a cornerstone for the development of an intelligent,
 search-driven chatbot, which is designed to address the intricate nature of customer inquiries. Haystack, a robust
-open-source Natural Language Processing (NLP) framework, employs a sophisticated Reader-Retriever architecture that
+open-source \acs{NLP} framework, employs a sophisticated Reader-Retriever architecture that
 harmonizes the capabilities of both information retrieval and deep semantic understanding. This dual approach
-capitalizes on advanced NLP methodologies to enhance the chatbot’s performance in extracting pertinent information from
-extensive datasets\autocite[cf.][p. 236]{krishnamoorthyEvolutionReadingComprehension2021}.
+capitalizes on advanced \acs{NLP} methodologies to enhance the chatbot’s performance in extracting pertinent information
+from extensive datasets\autocite[cf.][p. 236]{krishnamoorthyEvolutionReadingComprehension2021}.
 
 Notably, rather than utilizing the standard BERT model, this implementation leverages OpenAI’s GPT-4 model within the
 Haystack framework. This allows the system to engage in nuanced contextual interpretation, thereby significantly
@@ -61,7 +58,7 @@ retrieving supplier catalog data are executed with optimal accuracy and efficien
 in the technical stack is not merely contributory to the current system’s capabilities but also establishes a solid
 foundation for prospective advancements and refinements in the chatbot’s functional repertoire.
 
-\subsubsubsection{PostgreSQL}
+\paragraph{PostgreSQL}
 
 The backend system also incorporates PostgreSQL as its database solution. PostgreSQL’s support for complex queries and
 its capability to handle structured data are essential for managing and accessing the supplier information and product
@@ -69,7 +66,7 @@ details stored within the system.\autocite[cf.][pp. 23--24]{abbasiAdaptiveScalab
 The integration of PostgreSQL ensures that the chatbot can quickly and efficiently
 retrieve the necessary data, thereby reducing latency and enhancing the overall user experience.
 
-\subsubsubsection{Monitoring and Observability}
+\paragraph{Monitoring and Observability}
 
 For monitoring and observability, the project employs Langfuse and OpenTelemetry, which provide comprehensive tracing
 and metrics collection across the microservices architecture.\autocite[cf.][p. 15014]{thakurReviewOpentelemetryHTTP2022}
@@ -78,7 +75,7 @@ nature of the prototype, where understanding system performance and identifying 
 iterative development and refinement. By utilizing these tools, the project gains valuable insights into the behavior of
 the chatbot, allowing for continuous improvement and optimization.
 
-\subsubsubsection{FastAPI and uv}
+\paragraph{FastAPI and uv}
 
 FastAPI serves as the web framework for the backend, offering a high-performance environment that supports asynchronous
 programming.\autocite[cf.][p. 9]{chenModelAlgorithmResearch2023}
@@ -95,8 +92,8 @@ compatibility and consistency between various package versions.
 On the frontend, Vue.js and Vuetify are utilized to create an intuitive and responsive user interface.
 The decision to use Vue.js stems from its reactive nature and modular architecture, which align with the need for a
 maintainable and easily extensible codebase.\autocite[cf.][p. 268]{kaluzaComparisonFrontendFrameworks2018}
-\autocite[cf.][pp. 1--2]{liResearchSinglePage2021} It is effective for developing a chatbot interface that needs to present
-complex data in an accessible manner, while also allowing for dynamic updates based on user interactions.
+\autocite[cf.][pp. 1--2]{liResearchSinglePage2021} It is effective for developing a chatbot interface that needs to
+present complex data in an accessible manner, while also allowing for dynamic updates based on user interactions.
 \autocite[cf.][p. 493]{mokogintaDevelopingModernJavaScript2024}
 
 \subsubsection{Deployment and Infrastructure Management}
@@ -110,10 +107,10 @@ high availability.\autocite[cf.][pp. 2,7-8]{carrionKubernetesSchedulingTaxonomy2
 tool ensures that cloud resources can be provisioned and managed efficiently, providing a stable and reproducible
 deployment environment.\autocite[cf.][p. 24]{n.EvaluatingDevopsTools2023}
 
-\vspace{1cm}
+\vspace{0,75cm}
 
 In summary, each component of the technical stack has been carefully selected to meet the unique requirements of the
-chatbot project.\ The combination of Python and Haystack provides robust NLP capabilities for understanding and
+chatbot project.\ The combination of Python and Haystack provides robust \acs{NLP} capabilities for understanding and
 processing user inputs, while FastAPI support real-time interactions. PostgreSQL ensures efficient data management,
 and Langfuse and OpenTelemetry offer the necessary monitoring tools. On the frontend, Vue.js and Vuetify deliver a
 responsive and interactive user interface, and the deployment stack, comprised of Docker, Kubernetes, and Terraform,
