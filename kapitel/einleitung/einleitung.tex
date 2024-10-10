@@ -25,8 +25,6 @@ orchestration technologies like Docker and Kubernetes.
 
 \subsubsection{Backend Technologies}
 
-\paragraph{Python and Haystack}
-
 Python serves as the backbone of the application due to its extensive ecosystem and its ability to seamlessly integrate
 various libraries and frameworks that facilitate rapid prototyping and the development of complex data-driven
 functionalities.\autocite[cf.][p. 12]{shrivastavaDesignImplementationChatbot}
@@ -45,9 +43,9 @@ harmonizes the capabilities of both information retrieval and deep semantic unde
 capitalizes on advanced \acs{NLP} methodologies to enhance the chatbot’s performance in extracting pertinent information
 from extensive datasets\autocite[cf.][p. 236]{krishnamoorthyEvolutionReadingComprehension2021}.
 
-Notably, rather than utilizing the standard BERT model, this implementation leverages OpenAI’s GPT-4 model within the
+Notably, rather than utilizing the standard BERT model, this implementation leverages OpenAI’s GPT-4o model within the
 Haystack framework. This allows the system to engage in nuanced contextual interpretation, thereby significantly
-improving the precision of semantic searches. The choice of GPT-4 is particularly advantageous in question-answering
+improving the precision of semantic searches. The choice of GPT-4o is particularly advantageous in question-answering
 scenarios, as it allows the chatbot to comprehend the subtleties of customer queries and generate responses that are not
 only contextually relevant but also demonstrate a high degree of language understanding
 \autocite[cf.][pp. 943--944]{syedQuestionAnsweringChatbot2021}.
@@ -58,7 +56,6 @@ retrieving supplier catalog data are executed with optimal accuracy and efficien
 in the technical stack is not merely contributory to the current system’s capabilities but also establishes a solid
 foundation for prospective advancements and refinements in the chatbot’s functional repertoire.
 
-\paragraph{PostgreSQL}
 
 The backend system also incorporates PostgreSQL as its database solution. PostgreSQL’s support for complex queries and
 its capability to handle structured data are essential for managing and accessing the supplier information and product
@@ -66,16 +63,12 @@ details stored within the system.\autocite[cf.][pp. 23--24]{abbasiAdaptiveScalab
 The integration of PostgreSQL ensures that the chatbot can quickly and efficiently
 retrieve the necessary data, thereby reducing latency and enhancing the overall user experience.
 
-\paragraph{Monitoring and Observability}
-
 For monitoring and observability, the project employs Langfuse and OpenTelemetry, which provide comprehensive tracing
 and metrics collection across the microservices architecture.\autocite[cf.][p. 15014]{thakurReviewOpentelemetryHTTP2022}
 This is particularly relevant given the experimental
 nature of the prototype, where understanding system performance and identifying potential bottlenecks are crucial for
 iterative development and refinement. By utilizing these tools, the project gains valuable insights into the behavior of
 the chatbot, allowing for continuous improvement and optimization.
-
-\paragraph{FastAPI and uv}
 
 FastAPI serves as the web framework for the backend, offering a high-performance environment that supports asynchronous
 programming.\autocite[cf.][p. 9]{chenModelAlgorithmResearch2023}
