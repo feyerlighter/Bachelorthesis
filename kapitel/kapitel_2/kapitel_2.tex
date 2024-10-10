@@ -114,14 +114,17 @@ design choices before moving into the more resource-intensive MVP phase.
 \subsubsection{Introduction to Requirements Engineering According to Sommerville}
 
 \ac{RE}, as outlined by Ian Sommerville, is a multifaceted process aimed at systematically defining a
-system’s specifications. \autocite[cf.][p.5]{sommervilleRequirementsEngineeringGood1997} It comprises five interconnected activities: Requirements Documentation, Requirements
-Elicitation, Requirements Analysis and Negotiation, Requirements Validation, and Requirements Management.\autocite[cf.][p.11]{sommervilleRequirementsEngineeringGood1997} Each activity
-has distinct objectives but collectively ensures the system satisfies both functional and non-functional requirements.\autocite[cf.][p.7--8]{sommervilleRequirementsEngineeringGood1997}
+system’s specifications. \autocite[cf.][p.5]{sommervilleRequirementsEngineeringGood1997} It comprises five
+interconnected activities: Requirements Documentation, Requirements Elicitation, Requirements Analysis and Negotiation,
+Requirements Validation, and Requirements Management.\autocite[cf.][p.11]{sommervilleRequirementsEngineeringGood1997}
+Each activity has distinct objectives but collectively ensures the system satisfies both functional and non-functional
+requirements.\autocite[cf.][p.7--8]{sommervilleRequirementsEngineeringGood1997}
 
 Requirements Documentation serves as the foundation, formalizing needs, expectations, and constraints into a structured
 format, such as a Software Requirements Specification. This document bridges communication between stakeholders
 and developers and evolves with the project, supporting traceability and consistency. It is not merely a list of
-requirements but provides contextual rationale for each, enhancing clarity and stakeholder alignment.\autocite[cf.][38--40]{sommervilleRequirementsEngineeringGood1997}
+requirements but provides contextual rationale for each, enhancing clarity and stakeholder alignment.
+\autocite[cf.][38--40]{sommervilleRequirementsEngineeringGood1997}
 
 The process begins with Requirements Elicitation, which involves proactively engaging with stakeholders, including
 end-users and domain experts, to extract comprehensive requirements. Sommerville highlights this phase as an active
@@ -132,7 +135,8 @@ understanding of the system’s objectives.\autocite[cf.][p.64--65]{sommervilleR
 Next, Requirements Analysis and Negotiation transforms these inputs into a coherent and conflict-free set of
 requirements. Techniques such as modeling and prioritization help refine requirements, while negotiation resolves
 trade-offs between competing stakeholder priorities. This ensures a balanced and agreed-upon set of requirements,
-addressing concerns like performance versus cost or user flexibility versus security.\autocite[cf.][p.112--113]{sommervilleRequirementsEngineeringGood1997}
+addressing concerns like performance versus cost or user flexibility versus security.
+\autocite[cf.][p.112--113]{sommervilleRequirementsEngineeringGood1997}
 
 Requirements Validation, a critical phase, ensures requirements reflect stakeholder needs and are feasible within
 constraints. Using techniques such as formal inspections, peer reviews, and prototyping, validation identifies
@@ -142,51 +146,59 @@ expectations.\autocite[cf.][p.190--191]{sommervilleRequirementsEngineeringGood19
 Requirements Management, the final activity, involves tracking and controlling changes as the project evolves.
 Requirements are inherently dynamic, shifting with stakeholder understanding, new regulations, or market conditions.
 Sommerville’s approach emphasizes maintaining traceability and documenting changes to ensure all modifications are
-transparent and approved, reducing risks and maintaining requirement integrity.\autocite[cf.][p.216--217]{sommervilleRequirementsEngineeringGood1997}
+transparent and approved, reducing risks and maintaining requirement integrity.
+\autocite[cf.][p.216--217]{sommervilleRequirementsEngineeringGood1997}
 
 \subsubsection{Selection of Requirements Engineering Approach}
 
 The selection of the \acs{RE} approach by Sommerville for this project was based on
-tailoring each \acs{RE} activity to systematically uncover and refine requirements, thus providing a robust methodological
-foundation.
+tailoring each \acs{RE} activity to systematically uncover and refine requirements, thus providing a robust
+methodological foundation.
 
 For Requirements Documentation, Sommerville’s recommendations to "Define a Standard Document Structure" and "Make the
 Document Easy to Change" were implemented. The standardized structure ensured clarity and traceability, while the
-flexibility to modify the document supported iterative updates.\autocite[cf.][p.41]{sommervilleRequirementsEngineeringGood1997}
+flexibility to modify the document supported iterative updates.
+\autocite[cf.][p.41]{sommervilleRequirementsEngineeringGood1997}
 \autocite[cf.][p.60]{sommervilleRequirementsEngineeringGood1997} This approach facilitated rigorous traceability, deemed
 more critical for a prototype-focused project than alternatives like summarizing requirements, which prioritize
-readability over the detailed documentation needed to manage evolving requirements.\autocite[cf.][p.47]{sommervilleRequirementsEngineeringGood1997}
+readability over the detailed documentation needed to manage evolving requirements.
+\autocite[cf.][p.47]{sommervilleRequirementsEngineeringGood1997}
 
 In Requirements Elicitation, the strategies "Use Scenarios to Elicit Requirements," "Define Operational Processes," and
 "Prototyping Poorly Understood Requirements" were selected due to their effectiveness in refining complex and abstract
 requirements through iterative development and visualization. "Use Scenarios to Elicit Requirements" enabled precise
-visualization of user interactions, crucial for capturing the chatbot’s nuanced behavior.\autocite[cf.][p.99]{sommervilleRequirementsEngineeringGood1997}
-"Define Operational Processes" provided a structured method for visualizing workflows, ensuring accurate capture of
-procedural requirements, while "Prototype Poorly Understood Requirements" translated ambiguous requirements into
-tangible artifacts for stakeholder discussions.\autocite[cf.][p.102--103]{sommervilleRequirementsEngineeringGood1997}
+visualization of user interactions, crucial for capturing the chatbot’s nuanced behavior.
+\autocite[cf.][p.99]{sommervilleRequirementsEngineeringGood1997} "Define Operational Processes" provided a structured
+method for visualizing workflows, ensuring accurate capture of procedural requirements, while "Prototype Poorly U
+nderstood Requirements" translated ambiguous requirements into tangible artifacts for stakeholder discussions.
+\autocite[cf.][p.102--103]{sommervilleRequirementsEngineeringGood1997}
 \autocite[cf.][p.94--96]{sommervilleRequirementsEngineeringGood1997} These strategies were preferred over approaches
 like "Collect Requirements From Multiple Viewpoints," as the prototype’s limited scope did not necessitate broad
 stakeholder involvement from the outset.\autocite[cf.][p.90]{sommervilleRequirementsEngineeringGood1997}
 
 For Requirements Analysis and Negotiation, the project adopted "Plan for Conflicts and Conflict Resolution" due to its
-structured approach to identifying and resolving conflicting requirements.\autocite[cf.][p.125--127]{sommervilleRequirementsEngineeringGood1997} This systematic method facilitated
+structured approach to identifying and resolving conflicting requirements.
+\autocite[cf.][p.125--127]{sommervilleRequirementsEngineeringGood1997} This systematic method facilitated
 discussions on competing priorities and consensus-building, making it more suitable than less structured alternatives
 like "Define System Boundaries" or "Provide Software to Support Negotiations," which do not support the iterative,
-dialogic nature of ongoing negotiations in prototype development.\autocite[cf.][p.114]{sommervilleRequirementsEngineeringGood1997}
+dialogic nature of ongoing negotiations in prototype development.
+\autocite[cf.][p.114]{sommervilleRequirementsEngineeringGood1997}
 \autocite[cf.][p.121]{sommervilleRequirementsEngineeringGood1997}
 
 The Requirements Validation phase applied "Organize Formal Requirements Inspections" and "Use Prototyping to Verify
 Requirements." The former enabled comprehensive identification of inconsistencies through structured reviews, while the
-latter facilitated visual validation and iterative feedback.\autocite[cf.][p.195--196]{sommervilleRequirementsEngineeringGood1997}
-\autocite[cf.][p.203--204]{sommervilleRequirementsEngineeringGood1997}The decision to forego "Define Validation Checklists" was
-based on its less adaptable structure, which is not as effective for validating the evolving visual and interactive
-components of the project.\autocite[cf.][p.200]{sommervilleRequirementsEngineeringGood1997}
+latter facilitated visual validation and iterative feedback.
+\autocite[cf.][p.195--196]{sommervilleRequirementsEngineeringGood1997}
+\autocite[cf.][p.203--204]{sommervilleRequirementsEngineeringGood1997} The decision to forego "Define Validation
+Checklists" was based on its less adaptable structure, which is not as effective for validating the evolving visual and
+interactive components of the project.\autocite[cf.][p.200]{sommervilleRequirementsEngineeringGood1997}
 
 Finally, in Requirements Management, "Define Policies for Requirements Management" was implemented to maintain
 traceability and manage changes systematically. Establishing clear policies ensured that all requirements could be
-efficiently tracked and modified in response to evolving project needs.\autocite[cf.][p.221--222]{sommervilleRequirementsEngineeringGood1997}
-The project opted not to use a database for managing requirements, focusing instead on robust change management policies
-to ensure a controlled and flexible environment for reviewing and integrating changes. \autocite[cf.][p.236]{sommervilleRequirementsEngineeringGood1997}
+efficiently tracked and modified in response to evolving project needs.
+\autocite[cf.][p.221--222]{sommervilleRequirementsEngineeringGood1997} The project opted not to use a database for
+managing requirements, focusing instead on robust change management policies to ensure a controlled and flexible
+environment for reviewing and integrating changes. \autocite[cf.][p.236]{sommervilleRequirementsEngineeringGood1997}
 This emphasis on policies over tools supported the dynamic nature of the prototype’s development while preserving
 project coherence and stakeholder alignment.
 
@@ -201,7 +213,7 @@ The foundation, the Requirements Documentation, began with a structured Word doc
 which served as the central repository for capturing, organizing, and updating requirements. This document ensured
 systematic traceability and provided a consistent foundation for ongoing modifications as new insights emerged. The
 example from \ac{IEEE}, mentioned in Sommerville's book, is not used, because for a Prototype it is to much.
-\autocite[cf.][p.42--43]{sommervilleRequirementsEngineeringGood1997}A simpler version was created.
+\autocite[cf.][p.42--43]{sommervilleRequirementsEngineeringGood1997} A simpler version was created.
 
 During Requirements Elicitation, workshops with domain experts were conducted to deepen understanding of the procurement
 process and to capture core requirements. These sessions were complemented by ad-hoc meetings throughout development to
