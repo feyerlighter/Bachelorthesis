@@ -2,3 +2,112 @@
 
 
 \section{Prototyping}\label{sec:prototyping}
+
+\subsection{Functional Selection}\label{subsec:functional-selection}
+
+\subsubsection{Identifying Core Functionalities Based on User Needs}
+
+In the functional selection phase, several key features were identified and extracted from the requirements gathered
+during the Requirements Engineering process in \ref{sec:requirements-engineering}. These features were chosen based on
+their potential to validate the core interaction and functionality of the chatbot system, ensuring that the prototype
+effectively addresses the primary needs of the stakeholders. The focus was placed on fundamental aspects that would
+provide a meaningful demonstration of the system’s capabilities without requiring full-scale implementation of the
+entire product.
+
+The first selected feature was the basic chat functionality, which forms the core of the user interaction with the
+system. This functionality allows users to communicate their needs through a conversational interface, enabling the
+chatbot to capture and process input in real-time. Given that the chatbot is designed to guide users through the process
+of finding products and services, this feature is essential for testing how well the system can interpret user queries.
+
+Secondly, the prototype incorporates a chat history feature, which ensures that users can review their previous
+interactions with the chatbot. This functionality not only improves the user experience by providing continuity but also
+allows for finishing started orders or asking questions to placed orders, enhancing the overall usability of the system.
+
+A crucial element of the system is information extraction from the conversation, where the chatbot analyzes the user’s
+input to identify specific needs. This feature is pivotal to understanding the customer's requirements, whether for
+hardware, software, or services, and plays a central role in shaping the subsequent actions of the system.
+
+The fourth selected feature is the matching of the extracted customer need with the supplier catalog. This functionality
+ensures that the system can search the internal catalogs and identify the most relevant products or services that meet
+the user's needs. This aspect of the prototype will demonstrate the effectiveness of the backend logic in delivering
+accurate and relevant results from the catalog, allowing users to make informed decisions.
+
+Lastly, order tracking was included as a feature to allow users to monitor the status of their requests after placing an
+order. While not fully implemented in the prototype, this functionality simulates the experience of tracking an order's
+progress, which is a vital part of the user journey in the final system.
+
+By focusing on these selected features, the prototype can provide a realistic representation of how the final system
+will handle key user interactions, offering valuable insights into both technical feasibility and user experience. The
+selected features are not only aligned with stakeholder requirements but also serve as a solid foundation for evaluating
+the prototype’s effectiveness in fulfilling the system's objectives.
+
+\subsubsection{Breaking Down Core Functionalities into Specific Features}
+
+After identifying the core functionalities that the system needs to fulfill, the next step is to break these down into
+more specific features. Each of the basic functionalities, such as chat interaction, information extraction, and order
+tracking, can be addressed with a combination of technical components and architectural decisions. By doing so, we
+ensure that the prototype meets the user needs effectively while laying the groundwork for future development.
+
+The first basic functionality, enabling chat interaction, requires more than just a user interface where users can type
+messages. For this interaction to be meaningful, there must be a way to manage the exchange of information between the
+frontend (where the user interacts) and the backend (where the logic and data processing occur). To achieve this, the
+system should implement a RestAPI, which will allow seamless communication between the chatbot interface and the backend
+services. This ensures that user inputs are received and processed efficiently, and responses are sent back in real-time
+, creating a dynamic and responsive user experience. The RestAPI will act as the backbone for handling asynchronous
+requests, ensuring that the system remains scalable and flexible as more complex features are added.
+
+For the chat history feature, the system needs to ensure that users can retrieve past conversations, allowing them to
+continue where they left off. This is essential for maintaining continuity, especially in scenarios where a user might
+need to revisit an earlier request or clarify an ongoing conversation. To address this need, a PostgreSQL database
+should be used. PostgreSQL is well-suited for this task due to its ability to handle structured data and complex queries
+, ensuring that chat history can be stored and accessed efficiently. This database solution not only supports the
+retrieval of individual conversations but also allows the system to manage user sessions, ensuring that each user can
+securely access their personal chat history.
+
+The ability to extract information from the conversation is another key feature that requires a more granular approach.
+The chatbot needs to understand the specific needs expressed by the user—for example whether they are looking for
+hardware, software, or services. This requires an intelligent system capable of processing natural language and
+extracting relevant information. To accomplish this, the system should utilize \ac{GenAI}, which will be integrated
+through an OpenAPI model. By leveraging \ac{AI}, the chatbot will be able to perform more advanced tasks, such as
+recognizing the user’s intent, identifying key terms, and extracting actionable information from the conversation. This
+goes beyond simple keyword matching, allowing the system to offer personalized and accurate results based on the user's
+expressed needs.
+
+Next, the system must provide users with the ability to retrieve their assigned chats after logging in. This need arises
+from the requirement for users to be able to access their ongoing conversations from different devices or after a
+session ends. To meet this need, a login page should be implemented where users can authenticate themselves and load
+their assigned chats from the database. Upon successful login, the system should query the PostgreSQL database to
+retrieve the user’s active or previous conversations, allowing for seamless continuation of their interactions with the
+chatbot. This feature ensures that conversations are not lost and users can interact with the system across multiple
+sessions. However, this feature should only be simulated in the prototype, as there will be a \ac{SSO} in the future,
+but this may not be integrated without an internal Group \ac{PSA}.
+
+In addition to these user-facing functionalities, the system must remember user settings, such as login states and
+preferences, to provide a seamless experience. For example, users might choose between dark and light modes or prefer
+not to re-enter their login credentials after refreshing the page. To ensure these preferences are maintained, the
+system should utilize cookies. Cookies allow the system to store small pieces of information about the user’s
+preferences and login state, ensuring that these settings are remembered across different sessions without requiring the
+user to input them repeatedly.
+
+Finally, beyond simple chat interactions, there is a need for the system to handle more complex user inputs, such as
+file uploads. Users might need to upload documents—such as service descriptions—so the system can extract relevant
+information. This requires the system to not only process unstructured text but also to extract actionable data from
+uploaded files. To address this need, a file upload functionality should be integrated into the system. This feature
+will allow users to upload documents, and the system, through OpenAIs model, can analyze the content and extract the
+necessary information, such as service descriptions or specifications. This expands the chatbot’s functionality beyond
+simple text interactions, allowing it to handle more complex user requirements and data inputs. %TODO Wurde das am Ende wirklich umgesetzt oder nur simuliert?
+
+By breaking down these core functionalities into specific technical solutions, the prototype will be able to address the
+key user needs effectively. The proposed technical features—such as the RestAPI for communication—ensure that the system
+is both flexible and robust enough to meet its intended purpose. Each feature plays a crucial role in creating a
+responsive, intelligent, and user-friendly system that will serve as a foundation for the final product.
+
+\subsection{Construction}\label{subsec:construction}
+
+\input{kapitel/04_Prototyping/04-01_Frontend/04-01_Frontend}
+\input{kapitel/04_Prototyping/04-02_Backend/04-02_Backend}
+\input{kapitel/04_Prototyping/04-03_Deployment/04-03_Deployment}
+
+\subsection{Evaluation}\label{subsec:evaluation}
+
+\subsection{Further Use}\label{subsec:further-use}

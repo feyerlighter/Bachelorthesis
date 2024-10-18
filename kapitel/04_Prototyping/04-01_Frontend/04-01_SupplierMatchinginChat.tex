@@ -1,0 +1,114 @@
+\paragraph{Supplier Matching in Chat}
+
+This section introduces the supplier selection functionality within the chat, allowing users to browse a list of
+potential suppliers and select one based on criteria such as price and name. The feature is implemented through the
+\texttt{SupplierGallery.vue} component, which displays supplier options and lets users select a supplier for further
+interaction. This helps in narrowing down options for services or products that match the user’s needs, streamlining
+the supplier matching process.
+
+The following code defines the structure of a supplier and initializes a list of suppliers to be displayed in the chat,
+as shown in Code \ref{lst:supplier-interface-data}.
+
+\begin{lstlisting}[language=JavaScript, caption={Defining the Supplier Interface and Data
+    (\texttt{SupplierGallery.vue})}, firstnumber=4,label={lst:supplier-interface-data}]
+interface SupplierGalleryItem {
+  id: string
+  name: string
+  image: string | undefined
+  price: string
+  url: string
+}
+
+const suppliers: SupplierGalleryItem[] = [
+  {
+    id: '1',
+    name: 'Supplier 1',
+    image: undefined,
+    price: '125.000 - 150.000 €',
+    url: 'https://www.google.com'
+  },
+  {
+    id: '2',
+    name: 'Supplier 2',
+    image: 'https://via.placeholder.com/150',
+    price: '150.000 - 200.000 €',
+    url: 'https://www.google.com'
+  },
+  {
+    id: '3',
+    name: 'Supplier 3',
+    image: 'https://via.placeholder.com/150',
+    price: '200.000 - 250.000 €',
+    url: 'https://www.google.com'
+  }
+]
+\end{lstlisting}
+
+The \texttt{SupplierGalleryItem} interface defines the structure for each supplier, including properties like
+\texttt{id}, \texttt{name}, \texttt{image}, \texttt{price}, and \texttt{url}. The \texttt{suppliers} array holds the
+data for three example suppliers, each with its own details. Some suppliers have images, while others do not, showing
+flexibility in how supplier information is displayed.
+
+The following function allows the user to select a supplier from the list, storing the selected supplier in the reactive
+reference \texttt{selectedSupplier}, as demonstrated in Code \ref{lst:select-supplier-function}.
+
+\begin{lstlisting}[language=JavaScript, caption={Selecting a Supplier (\texttt{SupplierGallery.vue})},
+  firstnumber=36,label={lst:select-supplier-function}]
+let selectedSupplier = ref<SupplierGalleryItem | undefined>(undefined)
+function selectSupplier(supplier: SupplierGalleryItem) {
+  selectedSupplier.value = supplier
+}
+\end{lstlisting}
+
+The \texttt{selectedSupplier} reference keeps track of the currently selected supplier. The \texttt{selectSupplier}
+function updates this reference when the user clicks on a supplier, ensuring that the selected supplier is highlighted
+in the UI. This allows users to easily compare and select from different supplier options.
+
+The template code below renders the list of suppliers as clickable cards. Each card displays the supplier’s name, price,
+image (if available), and a button for selecting the supplier. The card structure is shown in Code
+\ref{lst:supplier-cards}.
+
+\begin{lstlisting}[language=JavaScript, caption={Rendering the Supplier Cards (\texttt{SupplierGallery.vue})},
+  firstnumber=44,label={lst:supplier-cards}]
+<div v-for="supplier in suppliers" :key="supplier.id" class="supplier-card">
+  <div class="d-flex ga-2 align-center">
+    <img v-if="supplier.image" :src="supplier.image" alt="Supplier image" />
+    <v-icon v-else icon="mdi-web" />
+    <h4>{{ supplier.name }}</h4>
+  </div>
+
+  <p>{{ supplier.price }}</p>
+
+  <div>
+    <b>Further links:</b>
+    <p>
+      <a :href="supplier.url">{{ supplier.url }}</a>
+    </p>
+  </div>
+
+  <div class="text-center">
+    <v-btn
+      :color="
+        !selectedSupplier || selectedSupplier?.id === supplier.id ? 'secondary' : '#d0d0d2'
+      "
+      rounded="xl"
+      class="select-button text-none"
+      :class="{
+        selected: selectedSupplier?.id === supplier.id
+      }"
+      @click="selectSupplier(supplier)"
+      flat
+    >
+      <template #prepend>
+        <v-icon icon="$plus" size="small" />
+      </template>
+      Select Supplier
+    </v-btn>
+  </div>
+</div>
+\end{lstlisting}
+
+Each supplier is represented by a card with details such as name, price, and a link to the supplier’s website. If an
+image is available, it is displayed; otherwise, a default icon is shown. The "Select Supplier" button dynamically
+changes its color and style depending on whether the supplier is selected or not, providing a clear visual indication
+of the active supplier.

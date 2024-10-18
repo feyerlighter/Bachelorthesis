@@ -115,6 +115,38 @@
 	morestring=[b]"
 }
 
+% Python als Sprache definieren:
+\lstdefinelanguage{Python}{
+	keywords={import, from, def, return, if, elif, else, for, while, break, continue, pass, lambda, try, except, raise, with, as, class, yield, global, nonlocal, assert, del, in, is, and, or, not},
+	keywordstyle=\color{blue}\bfseries,
+	ndkeywords={self, None, True, False},
+	ndkeywordstyle=\color{darkgray}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=true,
+	comment=[l]{\#},
+	morecomment=[s]{"""}{"""},
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	morestring=[b]',
+	morestring=[b]"
+}
+
+% JSON als Sprache definieren:
+\lstdefinelanguage{JSON}{
+	keywords={true, false, null},
+	keywordstyle=\color{blue}\bfseries,
+	ndkeywords={},
+	ndkeywordstyle=\color{darkgray}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=false,
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	morestring=[b]',
+	morestring=[b]",
+	moredelim=[s][\color{orange}]{:}{\ } % Highlight für Doppelpunkte
+}
+
+
 \lstset{
 	%language=JavaScript,
 	numbers=left,
@@ -122,7 +154,7 @@
 	numbersep=5pt,
 	breaklines=true,
 	showstringspaces=false,
-	frame=l ,
+	frame=single ,
 	xleftmargin=5pt,
 	xrightmargin=5pt,
 	basicstyle=\ttfamily\scriptsize,
@@ -131,6 +163,12 @@
   	commentstyle=\color{dkgreen},       % comment style
   	stringstyle=\color{mauve}         % string literal style
 }
+
+% Ändert den Titel im Verzeichnis
+\renewcommand{\lstlistlistingname}{List of Codes}
+
+% Ändert die Beschriftung der Listings
+\renewcommand{\lstlistingname}{Code}
 
 %-----------------------------------
 %Literaturverzeichnis Einstellungen
@@ -362,6 +400,11 @@ mincrossrefs = 1
 % Tabellenverzeichnis
 %-----------------------------------
 \listoftables
+\newpage
+%-----------------------------------
+% Codeverzeichnis
+%-----------------------------------
+\lstlistoflistings
 \newpage
 %-----------------------------------
 % Abkürzungsverzeichnis

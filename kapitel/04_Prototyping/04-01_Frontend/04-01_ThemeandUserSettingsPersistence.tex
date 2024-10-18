@@ -1,0 +1,84 @@
+\paragraph{Theme and User Settings Persistence}%theme-switcher
+
+This section covers how the application persists the user's theme preferences (dark or light mode) across sessions,
+ensuring a consistent user experience. The \texttt{ThemeSwitcher.vue}
+component enables users to toggle between themes, with their choice saved using local storage. Vue’s reactive system and
+Vuetify’s theme management are utilized to implement this functionality.
+
+The user's selected theme is stored in the browser’s local storage, allowing the theme preference to persist even after
+the user closes and reopens the application. The following code snippet demonstrates how local storage is utilized for
+theme persistence, as shown in \ref{lst:theme-local-storage}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Using Local Storage for Theme Persistence (\texttt{ThemeSwitcher.vue})},
+  firstnumber=7,label={lst:theme-local-storage}]
+const storedTheme = useLocalStorage('selected-theme', theme.global.name.value)
+\end{lstlisting}
+% @formatter:on
+
+This line uses \texttt{useLocalStorage} from \texttt{@vueuse/core} to store the current theme
+in local storage. The key \texttt{selected-theme} is used to save the theme's name. If no previous value
+is found, the default theme (\texttt{theme.global.name.value}) is stored.
+
+When the component is mounted, the stored theme is applied to ensure the user’s preference
+is loaded and set correctly. This ensures that the selected theme from the last session is applied when the user
+returns to the application, as demonstrated in \ref{lst:theme-sync-on-mount}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Syncing Theme on Mount (\texttt{ThemeSwitcher.vue})},
+  firstnumber=9,label={lst:theme-sync-on-mount}]
+onMounted(() => (theme.global.name.value = storedTheme.value))
+\end{lstlisting}
+% @formatter:on
+
+Thisline of code ensures that, as soon as the component is mounted, the theme stored in local storage
+is applied to the application.
+
+The component watches for any changes in the theme and updates the local storage accordingly
+, ensuring that the latest theme choice is always saved. This is shown in \ref{lst:theme-watch}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Watching for Theme Changes (\texttt{ThemeSwitcher.vue})},
+  firstnumber=11,label={lst:theme-watch}]
+watch(
+  () => theme.global.name.value,
+  (value) => (storedTheme.value = value)
+)
+\end{lstlisting}
+% @formatter:on
+
+The \texttt{watch} function observes changes to \texttt{theme.global.name.value} (
+the current theme). Whenever the user switches themes, the new value is stored in \texttt{storedTheme
+}, updating the local storage.
+
+The template part of the component in Code \ref{lst:theme-template} includes a Vuetify \texttt{v-switch} that
+allows users to toggle between light and dark themes.
+
+% @formatter:off
+\begin{lstlisting}[language=HTML, caption={Template for Theme Toggle (\texttt{ThemeSwitcher.vue})},
+  firstnumber=18,label={lst:theme-template}]
+<v-switch
+  v-model="theme.global.name.value"
+  false-value="telekom-light"
+  true-value="telekom-dark"
+  class="px-3"
+  color="primary"
+  hide-details
+>
+  <template #prepend>
+    <v-icon icon="$darkMode" color="primary" size="small" />
+    <span class="pl-4">Dark Mode</span>
+  </template>
+</v-switch>
+\end{lstlisting}
+% @formatter:on
+
+The \texttt{v-switch} is bound to \texttt{theme.global.name.value}, allowing users
+to switch between the \texttt{telekom-light} and \texttt{telekom-dark} themes. The current theme is dynamically updated
+, and the \texttt{v-switch} provides a user-friendly toggle for light and dark modes.
+
+All this ensures that the user’s theme preference is saved and restored across sessions
+, enhancing the user experience by maintaining a consistent interface.
+The combination of local storage and Vuetify’s theme management provides
+a seamless and intuitive approach to theme persistence, ensuring
+that the user’s selected theme is applied even after the application is reopened.

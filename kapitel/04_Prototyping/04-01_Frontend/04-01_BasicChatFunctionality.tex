@@ -1,0 +1,418 @@
+\paragraph{Basic Chat Functionality}%Chat.vue, ChatInput.vue, ChatMessage.vue
+
+The basic chat functionality enables users to interact with the chatbot, allowing both text-based communication and
+document uploads. This functionality is powered by five components: \textit{Chat.vue}
+for managing the chat interface, \textit{ChatInput.vue} for handling user input, \textit{ChatMessage.vue} for rendering
+individual messages, \textit{ChatHistory.vue} for rendering the conversation and \textit{MessageLoadingAnimation.vue}
+for the loading animation. Each of these components is explained in detail below.
+
+The \texttt{Chat.vue}
+component is responsible for managing user interactions with the chatbot, including sending messages and uploading
+files. It communicates with the backend via API calls and dynamically updates the chat history as messages are sent and
+received. The structure incorporates composables for fetching data and managing state, as well as improved handling of
+file selection.
+
+The following code snippet demonstrates the updated imports and setup for the component, which includes composables for
+managing API interactions and a reactive store for handling the selected case. This is shown in
+Code \ref{lst:chat-updated-imports}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Updated Imports and Setup (\texttt{Chat.vue})},
+  firstnumber=2,label={lst:chat-updated-imports}]
+import { useCasesApi } from '@/composables/useCasesApi'
+import { useMessagesApi } from '@/composables/useMessagesApi'
+import { selectedCaseStore } from '@/stores/selected-case.store'
+import { Message } from '@/types/api'
+import _ from 'lodash'
+import { computed, ref, useTemplateRef } from 'vue'
+\end{lstlisting}
+% @formatter:on
+
+In this snippet, \texttt{useCasesApi} and \texttt{useMessagesApi} are custom composables that
+handle API calls for retrieving and managing case data and
+messages. The \texttt{selectedCaseStore} stores the currently selected
+case, ensuring that messages are linked to the correct context.
+
+Several reactive variables are defined to track the state of the message being sent and the system’s response, as shown
+in Code \ref{lst:chat-reactive-variables}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Reactive Variables for Message Tracking (\texttt{Chat.vue})},
+  firstnumber=10,label={lst:chat-reactive-variables}]
+const pendingMessage = ref<Message | undefined>()
+const responseLoadingMessage = ref<Message | undefined>()
+
+const messagesApi = useMessagesApi(selectedCaseId)
+const casesApi = useCasesApi()
+\end{lstlisting}
+% @formatter:on
+
+The \texttt{pendingMessage} holds the message
+that the user is sending, while \texttt{responseLoadingMessage} tracks when the system is processing a response,
+providing visual feedback to the user. These variables are essential
+for enhancing the user experience by showing that the system is actively handling the request.
+
+The \texttt{sendMessage} function sends the user’s message to the backend and handles the system’s response. The
+function is detailed in Code \ref{lst:chat-send-message}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Send Message Function (\texttt{Chat.vue})},
+  firstnumber=32,label={lst:chat-send-message}]
+const sendMessage = async (message: string) => {
+  pendingMessage.value = {
+    content: message,
+    role: 'user',
+    timestamp: new Date().toISOString()
+  }
+
+  responseLoadingMessage.value = {
+    content: '',
+    role: 'system',
+    timestamp: new Date().toISOString(),
+    loading: true
+  }
+
+  const result = await messagesApi.create.mutateAsync({
+    content: message
+  })
+
+  if (result) {
+    selectedCaseStore.case.state = result.state
+    selectedCaseStore.case.messages = result.messages
+
+    if (selectedCaseStore.case.title !== result.title) {
+      selectedCaseStore.case.title = result.title
+      casesApi.findAll.refetch()
+    }
+  }
+
+  pendingMessage.value = undefined
+  responseLoadingMessage.value = undefined
+}
+\end{lstlisting}
+% @formatter:on
+
+This function updates the local state to reflect that
+a message is being sent and that the system is processing a response. The message is sent using \texttt{
+messagesApi}, and once a response is received, the chat state is updated, and any visual indicators
+(such as the loading message) are cleared. This ensures a smooth and responsive chat interface.
+
+The template for \texttt{Chat.vue} renders the chat history via the \texttt{ChatHistory}
+component and includes the message input field (\texttt{ChatInput}), as shown in Code \ref{lst:chat-template}.
+
+% @formatter:off
+\begin{lstlisting}[language=HTML, caption={Template for Chat.vue (\texttt{Chat.vue})},
+  firstnumber=73,label={lst:chat-template}]
+<template>
+  <div v-if="selectedCaseId" class="bg-surface">
+    <ChatHistory
+      :messages="messages"
+      :is-fetching="messagesApi.findAll.isFetching.value && false"
+      @break-ice-with-message="sendMessage($event)"
+      @break-ice-with-document="showFilePicker"
+    />
+    <ChatInput
+      @send-message="sendMessage($event)"
+      @show-file-picker="showFilePicker"
+      @clear-file-selection="clearFileSelection"
+      :selected-file-name="selectedFile?.name"
+      :disabled="messagesApi.findAll.isFetching.value"
+    />
+    <input id="fileUpload" type="file" ref="fileUpload" @change="selectFile" hidden />
+  </div>
+
+  <span v-else class="d-flex flex-column h-100 justify-center" align-center ga-2 bg-surface">
+    <v-icon class="opacity-50" color="blue-50" size="60" icon="$chat" />
+    <b>Case required</b>
+    <div class="text-center">To start communicating, create or select a case first.</div>
+  </span>
+</template>
+\end{lstlisting}
+% @formatter:on
+
+The \texttt{ChatHistory} component is responsible for rendering the conversation, while \texttt{ChatInput} provides the
+user with an input field to send messages. The template ensures that both messages and files can be sent and provides
+feedback to the user while data is being fetched.
+
+The component \texttt{ChatInput.vue} handles user input, including text messages and file uploads. It allows users to
+compose messages and trigger specific actions like sending or attaching files.
+
+The Code \ref{lst:define-msg-events} sets up the message input and prepares the component for emitting events when the
+user sends a message or selects a file.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Defining Message and Emitting Events (\texttt{ChatInput.vue})},
+firstnumber=4,label={lst:define-msg-events}]
+const message = ref('')
+
+const { selectedFileName = undefined } = defineProps<{ selectedFileName: string | undefined }>()
+const emit = defineEmits<{
+  sendMessage: [message: string]
+  showFilePicker: []
+  clearFileSelection: []
+}>()
+\end{lstlisting}
+% @formatter:on
+
+The \texttt{message} is a reactive reference that tracks the user’s input, and \texttt{selectedFileName}
+tracks any file selected by the user. The \texttt{emit}
+function enables communication with the parent component, notifying it when a message is sent or the file picker is
+triggered. This ensures dynamic UI updates and seamless interactions.
+
+The core function for sending messages is defined in Code \ref{lst:send-message-function}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Send Message Function (\texttt{ChatInput.vue})},
+firstnumber=13,label={lst:send-message-function}]
+function sendMessage() {
+  if (message.value) {
+    emit('sendMessage', message.value)
+    message.value = ''
+  }
+}
+\end{lstlisting}
+% @formatter:on
+
+When the user presses "Enter" or clicks the send button, the \texttt{sendMessage} function emits the
+\texttt{sendMessage} event and resets the input field. This provides smooth and intuitive message handling.
+
+The message input field is set up with actions for sending messages and handling file uploads in the template of Code
+\ref{lst:chatinput-template} and Code \ref{lst:trigger-buttons}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Message Input Field (\texttt{ChatInput.vue})},
+firstnumber=23,label={lst:chatinput-template}]
+<v-text-field
+  v-model="message"
+  @keydown.enter.prevent="sendMessage"
+  bg-color="surface"
+  variant="outlined"
+  color="primary"
+  placeholder="Enter message..."
+  rounded="lg"
+  no-resize
+  hide-details
+>
+\end{lstlisting}
+% @formatter:on
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Trigger Buttons (\texttt{ChatInput.vue})},
+firstnumber=47,label={lst:trigger-buttons}]
+<v-btn
+  @click.prevent="emit('showFilePicker')"
+  variant="text"
+  size="small"
+  density="default"
+  icon="$paperclip"
+  color="secondary"
+/>
+<v-divider vertical></v-divider>
+<v-btn
+  @click="sendMessage"
+  :disabled="!message && !selectedFileName"
+  variant="text"
+  density="default"
+  icon="$send"
+  size="small"
+  color="secondary"
+/>
+\end{lstlisting}
+% @formatter:on
+
+The \texttt{v-text-field} is bound to the reactive \texttt{message}
+property, automatically reflecting user input. The attached buttons allow users to trigger the file picker or send a
+message, ensuring the interface is user-friendly with easy-to-access actions.
+
+The component \texttt{ChatMessage.vue} is responsible for rendering individual chat messages, differentiating between
+messages sent by the user and those from the system or the chatbot. It also incorporates a loading animation for
+messages still being processed.
+
+The Code \ref{lst:chatmessage-props} shows how the props are defined and used in the component.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Defining Message Props (\texttt{ChatMessage.vue})},
+firstnumber=2,label={lst:chatmessage-props}]
+import { Message } from '@/types/api'
+
+defineProps<Message>()
+\end{lstlisting}
+% @formatter:on
+
+This component accepts a \texttt{Message} object as a prop, which contains details about the message content, its sender
+, and its status.
+
+Messages are displayed differently based on their role, as shown in the Code \ref{lst:message-display}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Message Display Based on Role (\texttt{ChatMessage.vue})},
+firstnumber=8,label={lst:message-display}]
+<div
+class="chat-message-row"
+:class="{
+  'justify-start': role === 'assistant' || role === 'system',
+  'justify-end': role === 'user'
+  }"
+  >
+  <div class="chat-message" :class="role">
+    <div class="system-icon">
+      <v-icon color="white" size="small" icon="$emojiHappy" />
+    </div>
+
+    <MessageLoadingAnimation v-if="loading" />
+    <div v-else class="chat-message-text">{{ content }}</div>
+
+    <div class="user-icon">
+      <v-icon color="white" icon="mdi-account" />
+    </div>
+  </div>
+</div>
+\end{lstlisting}
+% @formatter:on
+
+Because of \texttt{<MessageLoadingAnimation v-if="loading" />} a loading animation is displayed if the message is still
+loading; otherwise, the message content is shown. Messages are aligned based on their role, with user messages appearing
+on the right and assistant or system messages on the left. This visual distinction helps users easily identify the
+origin of each message, making the chat interface more intuitive.
+
+The messages are styled based on the \texttt{role}, with specific colors and padding applied to distinguish between
+different types of messages. See Code \ref{lst:message-style} for the styling of user messages.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Message Style Based on Role (\texttt{ChatMessage.vue})},
+firstnumber=50,label={lst:message-style}]
+&.user {
+  align-items: flex-start;
+
+  .system-icon {
+    display: none;
+  }
+
+  .user-icon {
+    display: block;
+  }
+
+  .chat-message-text {
+    background-color: rgba(var(--v-theme-secondary), 0.1);
+    margin-right: 12px;
+    border-radius: 10px 0 10px 10px;
+    padding: 8px 14px;
+  }
+}
+\end{lstlisting}
+% @formatter:on
+
+The user messages are styled with a secondary theme color and appropriate padding to enhance readability and visually
+separate them from messages originating from the assistant or system. This contributes to a clearer and more
+aesthetically pleasing chat interface. Same is done with \texttt{&.system} or \texttt{&.assistant} with different
+styling.
+
+The \texttt{MessageLoadingAnimation.vue} component provides a simple, bouncing loader animation that is displayed
+when the chatbot is processing a message. This component gives users feedback that the system is still working,
+preventing confusion during response delays.
+
+The following template renders the bouncing loader animation, which consists of three small dots that bounce in
+a sequential animation. This behavior is shown in Code \ref{lst:bouncing-loader-template}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Bouncing Loader Template (\texttt{MessageLoadingAnimation.vue})},
+firstnumber=4,label={lst:bouncing-loader-template}]
+<div class="bouncing-loader">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+\end{lstlisting}
+% @formatter:on
+
+This code creates the basic structure for the loader animation, where three div
+elements are used to represent the dots that will bounce during the loading process.
+
+The corresponding \ac{CSS} defines the animation behavior for the loader, creating a smooth, continuous bouncing effect.
+The \ac{SCSS} code in Code \ref{lst:bouncing-loader-css} applies the necessary styling.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Bouncing Loader Animation (\texttt{MessageLoadingAnimation.vue})},
+firstnumber=18,label={lst:bouncing-loader-css}]
+.bouncing-loader > div {
+  animation: bouncing-loader 0.6s infinite alternate;
+}
+
+@keyframes bouncing-loader {
+  to {
+    opacity: 0.1;
+    transform: translate3d(0, -5px, 0);
+  }
+}
+\end{lstlisting}
+% @formatter:on
+
+The \texttt{bouncing-loader} class assigns an animation to each dot. The keyframes define the
+animation, where the opacity of the dots decreases to 0.1, and they move slightly upwards, creating the bouncing effect.
+
+The \texttt{ChatHistory.vue} component is responsible for displaying the chat messages in a scrollable interface.
+It uses Vuetify’s \texttt{v-virtual-scroll} to ensure efficient rendering, even with a large message history.
+
+The Code  \ref{lst:chat-history-setup} shows the setup for this component, including reactive
+data and the \texttt{scrollToBottom} function, which ensures the chat window scrolls to the latest message.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Setup and Scroll Functionality (\texttt{ChatHistory.vue})},
+  firstnumber=2,label={lst:chat-history-setup}]
+import { Message } from '@/types/api'
+import { useTemplateRef, watch } from 'vue'
+import { VVirtualScroll } from 'vuetify/components'
+
+const props = defineProps<{ messages: Message[]; isFetching: boolean }>()
+const scroll = useTemplateRef<InstanceType<typeof VVirtualScroll>>('scroll')
+
+function scrollToBottom() {
+  if (scroll.value) {
+    scroll.value.scrollToIndex(props.messages.length - 1)
+  }
+}
+
+watch(
+  () => props.messages.length,
+  () => setTimeout(scrollToBottom, 100)
+)
+\end{lstlisting}
+% @formatter:on
+
+The \texttt{scrollToBottom} function ensures that when new messages are added
+to the chat, the scroll position is automatically updated to show the most recent message. This improves the user
+experience by keeping the conversation in view without requiring manual scrolling.
+
+The following template, shown in Code \ref{lst:chat-history-template}, renders the message history and displays
+a loading indicator when messages are being fetched.
+
+% @formatter:off
+\begin{lstlisting}[language=HTML, caption={Template for ChatHistory.vue (\texttt{ChatHistory.vue})},
+  firstnumber=33,label={lst:chat-history-template}]
+<template>
+  <div class="chat-container d-flex flex-column justify-center">
+    <div v-if="isFetching" class="text-center">
+      <v-progress-circular color="primary" indeterminate />
+    </div>
+    <v-virtual-scroll
+      v-else-if="messages.length"
+      class="chat-history"
+      :items="messages"
+      ref="scroll"
+    >
+      <template #default="{ item }">
+        <ChatMessage v-bind="item" />
+      </template>
+    </v-virtual-scroll>
+  </div>
+</template>
+\end{lstlisting}
+% @formatter:on
+
+When \texttt{isFetching} is true, the component displays a progress indicator, letting the user know
+that messages are being loaded. Once the messages are available
+, they are rendered in a scrollable list using \texttt{v-virtual-scroll}.
+
+These components together form the foundation of the chat's visual feedback system, allowing users to understand when
+the system is processing a message. This feature enhances the chatbot's user experience by keeping users engaged during
+response delays.

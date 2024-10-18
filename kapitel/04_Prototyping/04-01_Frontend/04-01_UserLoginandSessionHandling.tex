@@ -1,0 +1,134 @@
+\paragraph{User Login and Session Handling}%UserLoginDialog.vue
+
+This section focuses on the user login and session management, enabling users to authenticate themselves by entering a
+User \ac{ID}. The system leverages Vue.js components, Vuetify elements, and reactive state management to build an
+intuitive login dialog. This feature ensures that only authenticated users can interact with the chatbot, thus
+personalizing the user experience and maintaining the session across multiple interactions.
+
+The login component is implemented using \ac{TS}, providing type safety and enhanced tooling support, which is
+beneficial for large-scale projects. Below is a breakdown of the code's key functionalities.
+
+The following code snippet imports essential modules and components used throughout the login process. See
+Code \ref{lst:importing-dependencies}.
+
+\begin{lstlisting}[language=JavaScript, caption={Importing Dependencies (\texttt{UserLoginDialog.vue})},
+firstnumber=2,label={lst:importing-dependencies}]
+import { userStore } from '@/stores/user-store'
+import { onUpdated, ref, useTemplateRef } from 'vue'
+import { VTextField } from 'vuetify/components/VTextField'
+\end{lstlisting}
+
+The \texttt{userStore}
+is imported from a centralized state management store to handle user-specific data, such as the user \acs{ID}. The
+\texttt{onUpdated}, \texttt{ref}, and \texttt{useTemplateRef} functions are imported from Vue, essential for reactive
+programming, where component properties update automatically when the state changes. The \texttt{VTextField} from
+Vuetify is used to render the input field in the login form.
+
+Reactive references and validation rules are established in Code \ref{lst:reactive-variables-validation} to handle user
+input.
+
+\begin{lstlisting}[language=JavaScript, caption={Reactive Variables and Validation (\texttt{UserLoginDialog.vue})},
+firstnumber=6,label={lst:reactive-variables-validation}]
+const model = defineModel<boolean>()
+defineProps<{ persistend: boolean }>()
+
+const userIdInput = useTemplateRef<VTextField>('userIdInput')
+const userId = ref<string>()
+const userIdRules = ref<((v: string) => string | boolean)[]>([
+(v: string) => (!!v && !!v.trim()) || 'User ID is required'
+])
+\end{lstlisting}
+
+The \texttt{model} defines a reactive model to control the visibility of the login dialog, while the \texttt{persistend}
+prop determines whether the dialog can be closed without user interaction. The \texttt{userId}
+is a reactive reference holding the user input, while \texttt{userIdRules}
+ensures that the input is valid, requiring a non-empty string to maintain data integrity.
+
+The \texttt{onUpdated} lifecycle hook, shown in Code \ref{lst:synchronizing-lifecycle-hooks}, ensures the synchronization
+of the user \acs{ID} with the session state stored in the \texttt{userStore}.
+
+\begin{lstlisting}[language=JavaScript, caption={Synchronizing State with Lifecycle Hooks (\texttt{UserLoginDialog.vue})},
+firstnumber=15,label={lst:synchronizing-lifecycle-hooks}]
+onUpdated(() => {
+userId.value = userStore.userId
+})
+\end{lstlisting}
+
+This ensures that the correct user \acs{ID} is displayed in the form if it has been previously set.
+
+Code \ref{lst:handling-user-login} handles the user login process.
+
+\begin{lstlisting}[language=JavaScript, caption={Handling User Login (\texttt{UserLoginDialog.vue})},
+firstnumber=19,label={lst:handling-user-login}]
+function login() {
+if (!userId.value) return
+
+userStore.login(userId.value)
+model.value = false
+}
+\end{lstlisting}
+
+The \texttt{login} function first checks if the \texttt{userId} field is populated. If so, the
+\texttt{userStore.login()} function is called to store the user \acs{ID} for future interactions. After a successful login,
+the login dialog is closed, providing a seamless user experience.
+
+The \ac{HTML} template uses Vuetify components to create the login interface, binding state variables for reactivity and
+ensuring user input validation.
+
+The login dialog is defined as follows in Code \ref{lst:login-dialog}.
+
+\begin{lstlisting}[language=JavaScript, caption={Login Dialog (\texttt{UserLoginDialog.vue})},
+firstnumber=28,label={lst:login-dialog}]
+<v-dialog v-model="model" max-width="400" :persistent="persistend">
+<template #activator="{ props: activatorProps }">
+<v-btn v-bind="activatorProps" variant="text" class="text-none">
+<div v-if="userStore.userId">{{ userStore.userId }}</div>
+<div v-else>Login</div>
+<template #append>
+<v-icon v-if="userStore.userId">mdi-account-check</v-icon>
+<v-icon v-else>mdi-account-plus</v-icon>
+</template>
+</v-btn>
+</template>
+</v-dialog>
+\end{lstlisting}
+
+The \texttt{v-model} directive links the dialog's visibility to the \texttt{model}
+reactive variable. If the user is logged in (i.e., \texttt{userStore.userId}
+is set), the button displays the user \acs{ID}; otherwise, it prompts the user to log in. Icons are dynamically displayed to
+indicate the login state.
+
+The input field for the user \acs{ID} is defined as shwon in Code \ref{lst:user-id-input}.
+
+\begin{lstlisting}[language=JavaScript, caption={User ID Input Field (\texttt{UserLoginDialog.vue})},
+firstnumber=57,label={lst:user-id-input}]
+<v-text-field
+ref="userIdInput"
+v-model="userId"
+:counter="10"
+:rules="userIdRules"
+label="User ID"
+@keyup.enter="login"
+clearable
+></v-text-field>
+\end{lstlisting}
+
+The \texttt{v-text-field} is bound to the \texttt{userId} reactive reference, with a 10-character limit enforced by the
+\texttt{counter} attribute. Validation rules are applied via \texttt{userIdRules}
+, ensuring that users cannot submit invalid \acsp{ID}. The \texttt{@keyup.enter="login"}
+directive enables users to press "Enter" to submit the form, simplifying interaction.
+
+The login button is implemented as follows. See Code \ref{lst:login-button}.
+
+\begin{lstlisting}[language=JavaScript, caption={Login Button (\texttt{UserLoginDialog.vue})},
+firstnumber=70,label={lst:login-button}]
+<v-btn @click="login" :disabled="!userId"> Login </v-btn>
+\end{lstlisting}
+
+The button is enabled only when a valid \texttt{userId}
+is present, preventing users from submitting the form without valid input.
+
+User login and session handling are critical for managing how users access the chatbot system. It ensures that only
+authorized users can interact with the chatbot, which is essential for both security and personalization. Vuetify
+components provide a professional and responsive interface, while Vue’s reactive system handles the dynamic nature of
+login states, ensuring a smooth user experience without unnecessary page reloads or delays.

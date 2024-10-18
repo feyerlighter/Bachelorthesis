@@ -1,0 +1,129 @@
+\paragraph{Checklist for Extracted Information}%
+
+This section focuses on rendering a dynamic checklist that automatically updates based on the attributes extracted from
+the chatbot conversation. The checklist helps ensure that all required information is provided, enhancing the user
+experience by visually tracking the progress of filling out necessary details. The three components involved—
+\texttt{Checklist.vue}, \texttt{Checkbox.vue}, and \texttt{ChecklistItem.vue}
+—work together to display attributes as checklist items and indicate whether they have been completed.
+
+The \texttt{Checklist.vue}
+component is responsible for rendering the overall checklist, which displays each attribute as a separate checklist
+item. The checklist is populated based on the state of the current case, dynamically fetched from the
+\texttt{selectedCaseStore}.
+
+The following snippet demonstrates how the attributes are computed based on the case state. Only attributes that are not
+related to the "service description" are included in the checklist, as shown in Code
+\ref{lst:checklist-computed-attributes}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Computing Attributes for Checklist (\texttt{Checklist.vue})},
+  firstnumber=6,label={lst:checklist-computed-attributes}]
+const attributes = computed(() =>
+  selectedCaseStore.case.state
+    ?.flatMap((s) => s.attributes)
+    .filter((a) => a.attribute_id !== 'service_description')
+)
+\end{lstlisting}
+% @formatter:on
+
+This code processes the case's state to extract relevant attributes for display as checklist items, filtering
+out irrelevant attributes like "service description." The computed
+property ensures that the checklist dynamically updates as new information is added during the conversation.
+
+The template, shown in Code \ref{lst:checklist-rendering}, shows how the checklist items are rendered, using the
+\texttt{ChecklistItem} component for each attribute.
+
+% @formatter:off
+\begin{lstlisting}[language=HTML, caption={Rendering the Checklist Items (\texttt{Checklist.vue})},
+  firstnumber=20,label={lst:checklist-rendering}]
+<div v-if="attributes" class="overflow-y-auto d-flex flex-column ga-3">
+  <ChecklistItem
+    v-for="attribute in attributes"
+    :key="attribute.attribute_id"
+    v-bind="attribute"
+  />
+</div>
+\end{lstlisting}
+% @formatter:on
+
+Each attribute is rendered using the \texttt{ChecklistItem} component,
+representing an individual item in the checklist. If no attributes
+are available, a placeholder message prompts the user to continue the conversation to provide the necessary information.
+
+The \texttt{Checkbox.vue} component represents a simple visual checkbox indicating
+whether a checklist item has been completed. It uses Vuetify's \texttt{v-icon} to display a checkmark when the
+item is marked as "checked."
+
+Code \ref{lst:checkbox-state} shows how the checkbox state is managed via the \texttt{isChecked} prop.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Managing the Checkbox State (\texttt{Checkbox.vue})},
+  firstnumber=2,label={lst:checkbox-state}]
+const { isChecked = false } = defineProps<{
+  isChecked: boolean
+}>()
+\end{lstlisting}
+% @formatter:on
+
+This allows the checkbox to display its state (checked or unchecked) based on the value passed from the parent
+component.
+
+The template below in Code \ref{lst:checkbox-template} renders the checkbox, which changes its appearance depending on
+whether it is checked.
+
+% @formatter:off
+\begin{lstlisting}[language=HTML, caption={Rendering the Checkbox (\texttt{Checkbox.vue})},
+  firstnumber=8,label={lst:checkbox-template}]
+<div class="checkbox" :class="{ checked: isChecked }">
+  <v-icon class="check-icon" size="35" color="success" icon="$check" />
+</div>
+\end{lstlisting}
+% @formatter:on
+
+When \texttt{isChecked} is true, the \texttt{check-icon} is displayed, visually indicating
+that the attribute has been completed.
+
+The \texttt{ChecklistItem.vue} component is responsible for rendering each individual item in
+the checklist. It receives an attribute as a prop and checks its value to determine whether the item is completed
+and what tags or values should be displayed.
+
+The following snippet defines the props and computes the tags for each
+item, as demonstrated in \ref{lst:checklistitem-tags}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Computing Tags for Checklist Item (\texttt{ChecklistItem.vue})},
+  firstnumber=16,label={lst:checklistitem-tags}]
+const tags = computed<string[]>(() => (value ? [value].flat().map((x) => String(x)) : []))
+\end{lstlisting}
+% @formatter:on
+
+The \texttt{tags} property is computed from the attribute’s value
+, allowing the component to display relevant tags or information associated with the item. The \texttt{.flat()
+} method ensures that arrays are handled correctly, and \texttt{String(x)} converts each value to a string for display.
+
+The template below renders the checklist item, including the checkbox and any associated tags
+, as shown in \ref{lst:checklistitem-template}.
+
+% @formatter:off
+\begin{lstlisting}[language=HTML, caption={Rendering the Checklist Item (\texttt{ChecklistItem.vue})},
+  firstnumber=21,label={lst:checklistitem-template}]
+<div class="d-flex align-center ga-2">
+  <Checkbox :is-checked="!!value" />
+  <h4>{{ title }}</h4>
+</div>
+<div class="d-flex align-center ga-2">
+  <div style="width: 34px; height: 100%"></div>
+  <div v-if="tags.length" class="d-flex ga-2">
+    <div v-for="tag in tags" :key="tag">
+      <v-chip variant="flat" density="compact" color="chip-background" label>
+        <b>{{ tag }}</b>
+      </v-chip>
+    </div>
+  </div>
+</div>
+\end{lstlisting}
+% @formatter:on
+
+This section of the template displays a checkbox, the item title, and any tags associated
+with the item. The \texttt{v-chip} component is used to display the tags in a compact format, making the information
+visually accessible and easy to understand.

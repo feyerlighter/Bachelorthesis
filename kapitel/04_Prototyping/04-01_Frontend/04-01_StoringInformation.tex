@@ -1,0 +1,87 @@
+\paragraph{Storing Information}%folder stores
+
+This section focuses on how the chatbot system stores and manages key pieces of data related to user sessions and
+selected cases. Proper state management and persistence of information are crucial for maintaining a seamless user
+experience, especially when handling interactions across multiple sessions or refreshing the application. Two key pieces
+of state—the selected case and the user session—are managed using Vue's reactivity system. The state is stored locally,
+allowing the application to maintain important information between page loads.
+
+The \texttt{selected-case.store.ts}
+file manages the state of the selected case throughout the chatbot session. It uses Vue's \texttt{reactive}
+function to create a reactive store that can be shared across components. This is essential for keeping the selected
+case in sync across different parts of the application.
+
+The following code snippet shows how the \texttt{selectedCaseStore} is set up and managed, as demonstrated in
+\ref{lst:selected-case-store}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Setting up the Case Store (\texttt{selected-case.store.ts})},
+  firstnumber=10,label={lst:selected-case-store}]
+export const selectedCaseStore = reactive<CaseStore>({
+  case: {
+    id: '',
+    created_at: ''
+  },
+  setCase(caseData: Case) {
+    this.case = caseData
+  },
+  clearCase() {
+    this.case = {
+      id: '',
+      created_at: ''
+    }
+  }
+})
+\end{lstlisting}
+% @formatter:on
+
+In this snippet, \texttt{selectedCaseStore}
+is a reactive object that holds the current case state. This object provides essential methods to manage the state. The
+\texttt{setCase}
+method updates the case state with new data whenever a case is selected, ensuring that the correct data is displayed
+across components when switching between different cases during a chat session. Additionally, the \texttt{clearCase}
+method resets the case state, which is particularly useful when the user finishes working on a case or logs out.
+
+By using a reactive store, the case state remains in sync across all components that rely on it, making the user
+experience consistent and dynamic.
+
+The \texttt{user-store.ts}
+file handles the state of the user's session, including login and logout functionality. It uses Vue’s reactive system in
+combination with the \texttt{useLocalStorage} utility from the \texttt{@vueuse/core} library to persist the user's
+\texttt{userId} across sessions.
+
+The following code snippet shows how the \texttt{userStore}
+manages the user’s login and session data, as demonstrated in \ref{lst:user-store}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Managing the User Session (\texttt{user-store.ts})},
+  firstnumber=4,label={lst:user-store}]
+const storedUserId = useLocalStorage<string | undefined>('user-id', undefined)
+
+export const userStore: User = reactive<User>({
+  userId: storedUserId.value,
+  login(userId: string) {
+    storedUserId.value = userId
+    this.userId = userId
+  },
+  logout() {
+    storedUserId.value = undefined
+    this.userId = undefined
+  }
+})
+\end{lstlisting}
+% @formatter:on
+
+This code leverages Vue’s reactive system in combination with the \texttt{useLocalStorage} utility from the
+\texttt{@vueuse/core} library to ensure that the user’s
+\texttt{userId} persists across sessions. The implementation begins
+by initializing \texttt{storedUserId} from local storage, and this value is then used as the default for
+\texttt{userId} within the reactive store.
+
+When the \texttt{login} method is triggered, the user’s \texttt{userId} is stored both in the reactive
+state and in local storage, allowing other components to reactively update based on the user’s login status. Conversely,
+when the \texttt{logout} method is executed, both the reactive state and local storage are cleared,
+ensuring that the session is properly ended when the user logs out.
+
+This approach ensures that the user does not have to log in again after refreshing the page or
+closing and reopening the application, thanks to the persistence of the \texttt{userId} in local storage.
