@@ -1,0 +1,148 @@
+\paragraph{Project Setup}%main.ts, App.vue, index.ts, index.vue
+
+The project setup involves the initialization and configuration of the core Vue.js application, integrating essential
+plugins and defining the main structure of the application. This setup includes several key files: \texttt{main.ts},
+\texttt{App.vue}, \texttt{index.ts} (in the plugins folder), and \texttt{index.vue}. These files work together to create
+a consistent and well-organized foundation for the chatbot system.
+
+The \texttt{main.ts}
+file is responsible for bootstrapping the Vue.js application, registering essential plugins, and mounting the root
+component. This entry point initializes the app with Vue.js and applies global configurations.
+
+Code \ref{lst:main-ts-initialization} demonstrates how the application is initialized and mounted.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Bootstrapping the Application (\texttt{main.ts})},
+  firstnumber=6,label={lst:main-ts-initialization}]
+import './styles/main.scss'
+
+// Plugins
+import { registerPlugins } from '@/plugins'
+import { VueQueryPlugin } from '@tanstack/vue-query'
+
+// Components
+import App from './App.vue'
+
+// Composables
+import { createApp } from 'vue'
+
+const app = createApp(App)
+
+registerPlugins(app)
+app.use(VueQueryPlugin)
+
+app.mount('#app')
+\end{lstlisting}
+% @formatter:on
+
+The project imports a global stylesheet (\texttt{main.scss}) to ensure consistent styling across
+all components. The \texttt{registerPlugins} function, imported from the \texttt{plugins} folder, sets up
+essential plugins such as Vuetify and Vue Router. The \texttt{VueQueryPlugin} plugin is used for data fetching and
+caching, improving the app’s efficiency and reactivity in managing API data. Finally, the root component
+(\texttt{App.vue}) is mounted to the \texttt{\#app} element in the HTML, starting the application.
+
+The \texttt{App.vue} file defines the overall layout of the application using Vuetify’s layout components.
+It serves as the root component that houses all other views and components.
+
+The template in Code \ref{lst:app-vue-layout} illustrates how Vuetify components are used to create a structured layout.
+
+% @formatter:off
+\begin{lstlisting}[language=HTML, caption={Setting Up the Root Layout (\texttt{App.vue})},
+  firstnumber=1,label={lst:app-vue-layout}]
+<template>
+  <v-app>
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-app>
+</template>
+\end{lstlisting}
+% @formatter:on
+
+Vuetify’s \texttt{v-app} and \texttt{v-main} components create a structured layout
+, ensuring that the application adheres to material design principles.
+The \texttt{<router-view />} dynamically renders the current route’s component based on the Vue Router configuration.
+
+The \texttt{plugins/index.ts} file contains the \texttt{registerPlugins} function, which is used to
+register essential plugins such as Vuetify and Vue Router with
+the Vue.js application. This function centralizes plugin configuration, making it easier to manage.
+
+The following code snippet shows how plugins are registered using
+\texttt{registerPlugins}, as shown in Code \ref{lst:plugins-registration}.
+
+% @formatter:off
+\begin{lstlisting}[language=JavaScript, caption={Registering Essential Plugins (\texttt{plugins/index.ts})},
+  firstnumber=8,label={lst:plugins-registration}]
+import vuetify from './vuetify'
+import router from '../router'
+
+// Types
+import type { App } from 'vue'
+
+export function registerPlugins(app: App) {
+  app.use(vuetify).use(router)
+}
+\end{lstlisting}
+% @formatter:on
+
+The function takesa Vue app instance as an argument and applies the necessary plugins using \texttt{app.use()}.
+This pattern keeps the plugin registration clean and consistent across the application.
+
+The \texttt{index.vue} file serves as a key layout component that defines the main structure
+and user interface elements of the application. It includes the navigation bar, app bar, and the main container
+where chat functionality and other key features are rendered.
+
+The app bar at the top of the page, shown in Code \ref{lst:app-bar}, provides access to the sidebar, theme switcher, and
+user login dialog.
+
+% @formatter:off
+\begin{lstlisting}[language=HTML, caption={Setting Up the App Bar (\texttt{index.vue})},
+  firstnumber=17,label={lst:app-bar}]
+<v-app-bar prominent :elevation="0" color="background" class="pr-3">
+  <template #prepend>
+    <v-btn icon="$sidebar" size="small" color="secondary" variant="text" @click.stop="drawer = !drawer" />
+  </template>
+
+  <v-toolbar-title>
+    <span class="text-page-header-color bg-logo-background text-center pa-2 mr-4">
+      <v-icon icon="$telekom" size="xs" class="my-2" />
+    </span>
+    <span class="text-page-header-color font-weight-bold">Digital Chief Procurement Officer</span>
+  </v-toolbar-title>
+
+  <v-spacer></v-spacer>
+  <div class="d-flex align-center">
+    <ThemeSwitcher />
+    <UserLoginDialog v-model="showUserLoginDialog" :persistend="showUserLoginDialogPersistend" />
+  </div>
+</v-app-bar>
+\end{lstlisting}
+% @formatter:on
+
+The app bar includes a sidebar toggle, the project title, and user-related features such as the theme switcher
+and login dialog.
+
+The main container divides the page into two sections: one for the chat and the other for displaying the checklist,
+service description, and shopping cart. This layout provides an intuitive and organized interface, as shown in Code
+\ref{lst:main-container}.
+
+% @formatter:off
+\begin{lstlisting}[language=HTML, caption={Main Container Layout (\texttt{index.vue})},
+  firstnumber=49,label={lst:main-container}]
+<v-main>
+  <div class="main-container d-flex justify-between ga-3 w-100 no-wrap">
+    <div class="w-50 rounded-lg" :class="{ 'ml-3': drawer }">
+      <Chat />
+    </div>
+    <div class="w-50 rounded-lg d-flex flex-column ga-3">
+      <Checklist />
+      <ServiceDescription />
+      <ShoppingCart />
+    </div>
+  </div>
+</v-main>
+\end{lstlisting}
+% @formatter:on
+
+This layout ensures that the chat remains prominent, while additional information is organized on the right side,
+enhancing the user’s interaction experience.
