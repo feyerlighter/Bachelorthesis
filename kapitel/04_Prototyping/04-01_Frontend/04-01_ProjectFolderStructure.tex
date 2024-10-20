@@ -1,0 +1,64 @@
+\paragraph{Project Folder Structure}
+
+The project structure is organized to maintain a clear separation of concerns, making it scalable and maintainable. Its
+structure is shown in Code \ref{lst:project-structure}. The root of the \texttt{src}
+directory contains folders and files that serve specific purposes within the application.
+
+% @formatter:off
+\begin{lstlisting}[language=bash, caption={Project Structure}, label={lst:project-structure}]
+src/
+│
+├── api/                  # API schemas and client utilities
+│
+├── assets/               # Static assets (images, fonts, etc.)
+│
+├── components/           # Reusable Vue components
+│
+├── composables/          # Reusable Vue composables for logic
+│
+├── pages/                # Page-specific Vue components
+│
+├── plugins/              # Plugin registrations and configurations
+│
+├── router/               # Vue Router configuration
+│
+├── stores/               # Global state management (using reactive stores)
+│
+├── styles/               # Global SCSS files for styling
+│
+├── types/                # TypeScript type definitions
+│
+├── App.vue               # Root Vue component defining the app layout
+├── main.ts               # Application entry point for Vue initialization
+└── vite-env.d.ts         # Type definitions for Vite
+\end{lstlisting}
+% @formatter:on
+
+The \texttt{api}
+folder contains files defining API schemas and utility functions to interact with backend services. It holds definitions
+related to API paths and types, facilitating communication between frontend and backend. The \texttt{assets}
+folder stores static files like images, fonts, and other media assets used in the project. The \texttt{components}
+folder contains reusable Vue components that are used across various parts of the application, including UI elements
+like buttons, dialogs, and cards. The \texttt{composables}
+folder includes reusable logic in the form of Vue composables, which encapsulate functionalities such as API handling
+and state management.
+
+The \texttt{pages}
+folder holds Vue components representing individual pages or views of the application, such as home, login, or dashboard
+pages. The \texttt{plugins}
+folder registers and configures external plugins like Vuetify, Vue Router, and others used throughout the project. The
+\texttt{router}
+folder contains Vue Router configuration files, which define the routing rules and paths within the application. The
+\texttt{stores}
+folder manages global application state using Vue’s reactivity system, centralizing state that needs to be shared across
+components.
+
+The \texttt{styles}
+folder contains global SCSS files for styling the application consistently, including variables, mixins, and common
+styles. The \texttt{types}
+folder stores TypeScript type definitions used across the application to enforce consistent data structures. At the root
+of the \texttt{src} folder, \texttt{App.vue} is the root Vue component that defines the application’s main layout. The
+\texttt{main.ts}
+file serves as the main entry point of the application where Vue is initialized, plugins are registered, and the root
+component is mounted. Lastly, \texttt{vite-env.d.ts}
+defines types and environment variables for the Vite development environment.
